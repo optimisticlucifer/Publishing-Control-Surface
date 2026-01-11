@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import type { ContentRecord, Status, Impact, ActionType } from '@/types/record';
 import { isValidAction } from '@/types/record';
 import { cn } from '@/lib/utils';
@@ -51,6 +51,12 @@ export function ReviewDrawer({ record, onClose, onAction }: ReviewDrawerProps) {
   const { isDrawerOpen } = useFocusStore();
   const [blockReason, setBlockReason] = useState('');
   const [showBlockInput, setShowBlockInput] = useState(false);
+
+  // Reset block input when record changes or when status changes to Blocked
+  useEffect(() => {
+    setBlockReason('');
+    setShowBlockInput(false);
+  }, [record?.id, record?.status]);
 
   if (!record || !isDrawerOpen) {
     return null;
