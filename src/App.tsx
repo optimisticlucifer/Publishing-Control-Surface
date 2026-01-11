@@ -114,8 +114,9 @@ function MainContent() {
       {/* Selection bar (floating) */}
       <SelectionBar onBatchAction={handleBatchAction} />
 
-      {/* Review drawer */}
+      {/* Review drawer - key forces re-render when record status changes */}
       <ReviewDrawer
+        key={drawerRecord ? `${drawerRecord.id}-${drawerRecord.status}` : 'closed'}
         record={drawerRecord}
         onClose={closeDrawer}
         onAction={handleAction}

@@ -4,6 +4,7 @@ import { isValidAction } from '@/types/record';
 import { cn } from '@/lib/utils';
 import { formatRelativeTime } from '@/lib/utils';
 import { useFocusStore } from '@/features/records/store/focusStore';
+import { useRecords } from '@/features/records/hooks/useRecords';
 
 interface ReviewDrawerProps {
   record: ContentRecord | null;
@@ -47,10 +48,16 @@ const IMPACT_CONFIG: Record<Impact, { icon: string; color: string }> = {
   Low: { icon: '\u25BC', color: 'text-impact-low' },
 };
 
-export function ReviewDrawer({ record, onClose, onAction }: ReviewDrawerProps) {
-  const { isDrawerOpen } = useFocusStore();
+export function ReviewDrawer({ record: recordProp, onClose, onAction }: ReviewDrawerProps) {
+  const { isDrawerOpen, drawerRecordId } = useFocusStore();
+  const { data: records = [] } = useRecords();
   const [blockReason, setBlockReason] = useState('');
   const [showBlockInput, setShowBlockInput] = useState(false);
+
+  // Get fresh record from query cache (updates with optimistic updates)
+  const record = drawerRecordId
+    ? records.find((r) => r.id === drawerRecordId) ?? recordProp
+    : recordProp;
 
   // Reset block input when record changes or when status changes to Blocked
   useEffect(() => {
