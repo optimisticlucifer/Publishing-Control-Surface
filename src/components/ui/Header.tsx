@@ -14,20 +14,22 @@ export function Header({ totalRecords, filteredCount }: HeaderProps) {
   const selectedCount = useSelectionStore((s) => s.getSelectedCount());
 
   return (
-    <header className="h-12 px-4 flex items-center justify-between border-b border-surface-3 bg-surface-1">
+    <header className="h-12 px-4 flex items-center justify-between border-b border-surface-3/50 bg-surface-1/95 backdrop-blur-sm">
       {/* Left: Logo and title */}
       <div className="flex items-center gap-3">
-        <img
-          src={logoImage}
-          alt="Gravton Labs"
-          className={cn('h-7 w-7 rounded', theme === 'light' && 'invert')}
-        />
+        <div className="relative">
+          <img
+            src={logoImage}
+            alt="Gravton Labs"
+            className={cn('h-7 w-7 rounded', theme === 'light' && 'invert')}
+          />
+        </div>
         <div className="flex flex-col">
-          <span className="text-sm font-medium text-text-primary">Publishing Control Surface</span>
+          <span className="text-sm font-medium text-gradient">Publishing Control Surface</span>
           <span className="text-xs text-text-tertiary">
             {filteredCount.toLocaleString()} of {totalRecords.toLocaleString()} items
             {selectedCount > 0 && (
-              <span className="text-accent"> \u00B7 {selectedCount} selected</span>
+              <span className="text-accent"> · {selectedCount} selected</span>
             )}
           </span>
         </div>
@@ -42,10 +44,10 @@ export function Header({ totalRecords, filteredCount }: HeaderProps) {
           onClick={toggleFilterBar}
           className={cn(
             'flex items-center gap-1.5 h-8 px-3 text-xs',
-            'rounded border transition-colors',
+            'rounded border transition-all duration-200',
             isFilterBarOpen
-              ? 'bg-accent/10 border-accent/30 text-accent'
-              : 'bg-surface-2 border-surface-3 text-text-secondary hover:text-text-primary'
+              ? 'bg-accent/10 border-accent/30 text-accent glow-accent-sm'
+              : 'bg-surface-2/80 border-surface-3/50 text-text-secondary hover:text-text-primary hover:bg-surface-3/50'
           )}
         >
           <svg
@@ -69,8 +71,8 @@ export function Header({ totalRecords, filteredCount }: HeaderProps) {
           onClick={toggleTheme}
           className={cn(
             'flex items-center justify-center w-8 h-8',
-            'rounded border border-surface-3 bg-surface-2',
-            'text-text-secondary hover:text-text-primary transition-colors'
+            'rounded border border-surface-3/50 bg-surface-2/80',
+            'text-text-secondary hover:text-text-primary hover:bg-surface-3/50 transition-all duration-200'
           )}
           title={`Switch to ${theme === 'dark' ? 'light' : 'dark'} mode`}
         >
@@ -110,8 +112,8 @@ export function Header({ totalRecords, filteredCount }: HeaderProps) {
           onClick={toggleHelpModal}
           className={cn(
             'flex items-center justify-center w-8 h-8',
-            'rounded border border-surface-3 bg-surface-2',
-            'text-text-secondary hover:text-text-primary transition-colors'
+            'rounded border border-surface-3/50 bg-surface-2/80',
+            'text-text-secondary hover:text-text-primary hover:bg-surface-3/50 transition-all duration-200'
           )}
           title="Keyboard shortcuts"
         >

@@ -6,6 +6,9 @@ import { formatRelativeTime } from '@/lib/utils';
 import { useFocusStore } from '@/features/records/store/focusStore';
 import { useRecords } from '@/features/records/hooks/useRecords';
 
+// Get animation state from store
+const useDrawerAnimation = () => useFocusStore((s) => s.shouldAnimateDrawer);
+
 interface ReviewDrawerProps {
   record: ContentRecord | null;
   onClose: () => void;
@@ -50,6 +53,7 @@ const IMPACT_CONFIG: Record<Impact, { icon: string; color: string }> = {
 
 export function ReviewDrawer({ record: recordProp, onClose, onAction }: ReviewDrawerProps) {
   const { isDrawerOpen, drawerRecordId } = useFocusStore();
+  const shouldAnimate = useDrawerAnimation();
   const { data: records = [] } = useRecords();
   const [blockReason, setBlockReason] = useState('');
   const [showBlockInput, setShowBlockInput] = useState(false);
@@ -97,7 +101,10 @@ export function ReviewDrawer({ record: recordProp, onClose, onAction }: ReviewDr
     <>
       {/* Backdrop */}
       <div
-        className="fixed inset-0 bg-black/20 z-40"
+        className={cn(
+          'fixed inset-0 bg-black/20 z-40',
+          shouldAnimate && 'animate-fade-in'
+        )}
         onClick={onClose}
         aria-hidden="true"
       />
@@ -106,22 +113,22 @@ export function ReviewDrawer({ record: recordProp, onClose, onAction }: ReviewDr
       <div
         className={cn(
           'fixed right-0 top-0 h-full w-[480px] max-w-full',
-          'bg-surface-1 border-l border-surface-3 shadow-lg',
+          'bg-surface-1/95 backdrop-blur-md border-l border-surface-3/50 shadow-2xl',
           'z-50 overflow-y-auto',
-          'animate-slide-in-right'
+          shouldAnimate && 'animate-slide-in-right'
         )}
         role="dialog"
         aria-modal="true"
         aria-labelledby="drawer-title"
       >
         {/* Header */}
-        <div className="sticky top-0 bg-surface-1 border-b border-surface-3 px-6 py-4 flex items-center justify-between">
-          <h2 id="drawer-title" className="text-lg font-medium text-text-primary">
+        <div className="sticky top-0 bg-surface-1/90 backdrop-blur-sm border-b border-surface-3/50 px-6 py-4 flex items-center justify-between">
+          <h2 id="drawer-title" className="text-lg font-medium text-gradient">
             Review Item
           </h2>
           <button
             onClick={onClose}
-            className="flex items-center gap-2 text-text-tertiary hover:text-text-secondary transition-colors"
+            className="flex items-center gap-2 text-text-tertiary hover:text-text-secondary transition-all duration-200"
           >
             <span className="kbd">ESC</span>
             <svg
@@ -273,8 +280,8 @@ export function ReviewDrawer({ record: recordProp, onClose, onAction }: ReviewDr
                     onClick={() => handleAction('review')}
                     className={cn(
                       'flex items-center gap-2 h-9 px-4 text-sm font-medium rounded',
-                      'bg-surface-3 text-text-primary',
-                      'hover:bg-surface-4 transition-colors'
+                      'bg-surface-3/80 text-text-primary',
+                      'hover:bg-surface-4 transition-all duration-200'
                     )}
                   >
                     <span className="kbd">r</span>
@@ -287,7 +294,7 @@ export function ReviewDrawer({ record: recordProp, onClose, onAction }: ReviewDr
                     className={cn(
                       'flex items-center gap-2 h-9 px-4 text-sm font-medium rounded',
                       'bg-status-approved text-surface-0',
-                      'hover:bg-status-approved/90 transition-colors'
+                      'hover:bg-status-approved/90 hover:glow-status-approved transition-all duration-200'
                     )}
                   >
                     <span className="kbd text-surface-0/70">a</span>
@@ -300,7 +307,7 @@ export function ReviewDrawer({ record: recordProp, onClose, onAction }: ReviewDr
                     className={cn(
                       'flex items-center gap-2 h-9 px-4 text-sm font-medium rounded',
                       'bg-status-published text-surface-0',
-                      'hover:bg-status-published/90 transition-colors'
+                      'hover:bg-status-published/90 hover:glow-status-published transition-all duration-200'
                     )}
                   >
                     <span className="kbd text-surface-0/70">p</span>
@@ -312,8 +319,8 @@ export function ReviewDrawer({ record: recordProp, onClose, onAction }: ReviewDr
                     onClick={() => handleAction('block')}
                     className={cn(
                       'flex items-center gap-2 h-9 px-4 text-sm font-medium rounded',
-                      'bg-surface-3 text-status-blocked',
-                      'hover:bg-status-blocked hover:text-surface-0 transition-colors'
+                      'bg-surface-3/80 text-status-blocked',
+                      'hover:bg-status-blocked hover:text-surface-0 hover:glow-status-blocked transition-all duration-200'
                     )}
                   >
                     <span className="kbd">b</span>
@@ -326,7 +333,7 @@ export function ReviewDrawer({ record: recordProp, onClose, onAction }: ReviewDr
         </div>
 
         {/* Footer */}
-        <div className="sticky bottom-0 bg-surface-1 border-t border-surface-3 px-6 py-3">
+        <div className="sticky bottom-0 bg-surface-1/90 backdrop-blur-sm border-t border-surface-3/50 px-6 py-3">
           <div className="flex items-center justify-center gap-6 text-xs text-text-tertiary">
             <span>
               <span className="kbd">j</span> Next

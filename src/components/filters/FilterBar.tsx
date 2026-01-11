@@ -55,10 +55,10 @@ function FilterDropdown<T extends string>({
         onClick={() => setIsOpen(!isOpen)}
         className={cn(
           'flex items-center gap-2 h-7 px-3 text-xs',
-          'bg-surface-2 border border-surface-3 rounded',
-          'text-text-secondary hover:text-text-primary',
-          'transition-colors duration-150',
-          selected.length > 0 && 'border-accent/50 text-accent'
+          'bg-surface-2/80 border border-surface-3/50 rounded',
+          'text-text-secondary hover:text-text-primary hover:bg-surface-3/50',
+          'transition-all duration-200',
+          selected.length > 0 && 'border-accent/50 text-accent glow-accent-sm'
         )}
       >
         <span className="text-text-tertiary">{label}:</span>
@@ -75,14 +75,14 @@ function FilterDropdown<T extends string>({
       </button>
 
       {isOpen && (
-        <div className="absolute top-full left-0 mt-1 min-w-[160px] bg-surface-2 border border-surface-3 rounded shadow-lg z-20">
+        <div className="absolute top-full left-0 mt-1 min-w-[160px] bg-surface-2/95 backdrop-blur-md border border-surface-3/50 rounded shadow-xl z-20 animate-fade-in">
           {options.map((option) => (
             <button
               key={option}
               onClick={() => toggleOption(option)}
               className={cn(
                 'flex items-center gap-2 w-full px-3 py-2 text-xs text-left',
-                'hover:bg-surface-3 transition-colors',
+                'hover:bg-surface-3/50 transition-all duration-150',
                 selected.includes(option) && 'text-accent'
               )}
             >
@@ -132,7 +132,7 @@ export function FilterBar() {
   };
 
   return (
-    <div className="flex items-center gap-3 px-4 py-2 border-b border-surface-3 bg-surface-1">
+    <div className="flex items-center gap-3 px-4 py-2 border-b border-surface-3/50 bg-surface-1/95 backdrop-blur-sm animate-fade-in">
       <FilterDropdown
         label="Status"
         options={STATUSES}

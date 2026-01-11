@@ -14,7 +14,7 @@ export function StatusBar({ totalRows }: StatusBarProps) {
     <div
       className={cn(
         'h-8 px-4 flex items-center justify-between',
-        'border-t border-surface-3 bg-surface-1',
+        'border-t border-surface-3/50 bg-surface-1/95 backdrop-blur-sm',
         'text-xs text-text-tertiary'
       )}
     >

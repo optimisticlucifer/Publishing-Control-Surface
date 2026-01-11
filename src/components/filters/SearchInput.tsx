@@ -107,11 +107,11 @@ export function SearchInput({ onFocusChange }: SearchInputProps) {
         placeholder="Search prompts..."
         className={cn(
           'w-64 h-8 pl-9 pr-8 text-sm',
-          'bg-surface-2 border border-surface-3 rounded',
+          'bg-surface-2/80 border border-surface-3/50 rounded',
           'text-text-primary placeholder:text-text-tertiary',
-          'transition-colors duration-150',
-          'focus:outline-none focus:border-accent/50 focus:ring-1 focus:ring-accent/30',
-          isFocused && 'border-accent/50'
+          'transition-all duration-200',
+          'focus:outline-none focus:border-accent/50 focus:ring-1 focus:ring-accent/30 focus:glow-accent-sm',
+          isFocused && 'border-accent/50 glow-accent-sm'
         )}
       />
       {localValue && (

@@ -13,6 +13,9 @@ interface FocusState {
   // ID of record shown in drawer
   drawerRecordId: string | null;
 
+  // Whether drawer should animate (only on fresh open)
+  shouldAnimateDrawer: boolean;
+
   // Actions
   setFocusedIndex: (index: number) => void;
   setFocusedId: (id: string | null) => void;
@@ -26,6 +29,7 @@ interface FocusState {
   openDrawer: (recordId: string) => void;
   closeDrawer: () => void;
   toggleDrawer: (recordId: string) => void;
+  updateDrawerRecord: (recordId: string) => void;
 }
 
 const PAGE_SIZE = 20; // Number of rows to jump for page up/down
@@ -35,6 +39,7 @@ export const useFocusStore = create<FocusState>((set) => ({
   focusedId: null,
   isDrawerOpen: false,
   drawerRecordId: null,
+  shouldAnimateDrawer: false,
 
   setFocusedIndex: (index) =>
     set(() => ({
@@ -76,22 +81,30 @@ export const useFocusStore = create<FocusState>((set) => ({
     })),
 
   openDrawer: (recordId) =>
-    set(() => ({
+    set((state) => ({
       isDrawerOpen: true,
       drawerRecordId: recordId,
+      shouldAnimateDrawer: !state.isDrawerOpen, // Only animate if drawer was closed
     })),
 
   closeDrawer: () =>
     set(() => ({
       isDrawerOpen: false,
       drawerRecordId: null,
+      shouldAnimateDrawer: false,
     })),
 
   toggleDrawer: (recordId) =>
     set((state) => {
       if (state.isDrawerOpen && state.drawerRecordId === recordId) {
-        return { isDrawerOpen: false, drawerRecordId: null };
+        return { isDrawerOpen: false, drawerRecordId: null, shouldAnimateDrawer: false };
       }
-      return { isDrawerOpen: true, drawerRecordId: recordId };
+      return { isDrawerOpen: true, drawerRecordId: recordId, shouldAnimateDrawer: !state.isDrawerOpen };
     }),
+
+  updateDrawerRecord: (recordId) =>
+    set(() => ({
+      drawerRecordId: recordId,
+      shouldAnimateDrawer: false, // No animation when just updating record
+    })),
 }));

@@ -27,7 +27,7 @@ const STATUS_CONFIG: Record<
   },
   InReview: {
     border: 'border-l-status-in-review/60',
-    dot: 'bg-status-in-review animate-pulse-subtle',
+    dot: 'bg-status-in-review',
     text: 'text-status-in-review',
     label: 'In Review',
   },
@@ -110,22 +110,22 @@ export const GridRow = memo(function GridRow({
       className={cn(
         // Base row styles
         'grid grid-cols-[40px_1fr_80px_100px_50px_70px] items-center',
-        'h-11 px-3 border-b border-surface-3/50',
-        'transition-colors duration-75 cursor-pointer',
-        'hover:bg-surface-3/30',
+        'h-11 px-3 border-b border-surface-3/30',
+        'transition-all duration-150 ease-out cursor-pointer',
+        'hover:bg-surface-3/40',
 
         // Status left border
         'border-l-2',
         statusConfig.border,
 
-        // Focus state
-        isFocused && 'bg-surface-3/50 border-l-accent',
+        // Focus state - subtle glow
+        isFocused && 'bg-surface-3/50 border-l-accent glow-accent-sm',
 
         // Selected state
         isSelected && 'bg-accent/8',
 
         // Focus + Selected
-        isFocused && isSelected && 'bg-accent/12',
+        isFocused && isSelected && 'bg-accent/12 glow-accent-sm',
 
         // Pending operation state
         hasPendingOps && 'opacity-70'
@@ -135,10 +135,10 @@ export const GridRow = memo(function GridRow({
       <div className="flex items-center justify-center" onClick={handleCheckboxClick}>
         <div
           className={cn(
-            'w-4 h-4 rounded border border-surface-4',
-            'flex items-center justify-center transition-colors',
-            'hover:border-accent',
-            isSelected && 'bg-accent border-accent'
+            'w-4 h-4 rounded border border-surface-4/70',
+            'flex items-center justify-center transition-all duration-150',
+            'hover:border-accent hover:bg-accent/10',
+            isSelected && 'bg-accent border-accent glow-accent-sm'
           )}
         >
           {isSelected && (
@@ -181,7 +181,10 @@ export const GridRow = memo(function GridRow({
 
       {/* Status - dot + label */}
       <div className="flex items-center gap-1.5">
-        <div className={cn('w-1.5 h-1.5 rounded-full flex-shrink-0', statusConfig.dot)} />
+        <div className={cn(
+          'w-1.5 h-1.5 rounded-full flex-shrink-0',
+          statusConfig.dot
+        )} />
         <span className={cn('text-xs', statusConfig.text)}>{statusConfig.label}</span>
       </div>
 
@@ -198,7 +201,7 @@ export const GridRow = memo(function GridRow({
       {/* Pending indicator */}
       {hasPendingOps && (
         <div className="absolute right-2 top-1/2 -translate-y-1/2">
-          <div className="w-1.5 h-1.5 rounded-full bg-accent animate-pulse" />
+          <div className="w-2 h-2 rounded-full bg-accent" />
         </div>
       )}
     </div>

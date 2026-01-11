@@ -93,7 +93,7 @@ function MainContent() {
   }
 
   return (
-    <div className="flex flex-col h-screen bg-surface-0">
+    <div className="flex flex-col h-screen bg-surface-0 bg-grid">
       {/* Header */}
       <Header totalRecords={totalRecords} filteredCount={records.length} />
 

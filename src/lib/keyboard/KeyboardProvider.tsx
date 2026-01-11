@@ -43,6 +43,7 @@ export function KeyboardProvider({
     openDrawer,
     closeDrawer,
     drawerRecordId,
+    updateDrawerRecord,
   } = useFocusStore();
 
   // Selection store
@@ -103,36 +104,46 @@ export function KeyboardProvider({
       switch (e.key) {
         // Navigation
         case 'j':
-        case 'ArrowDown':
+        case 'ArrowDown': {
+          const nextIndex = Math.min(focusedIndex + 1, totalRows - 1);
+          const nextRecord = records[nextIndex];
           if (e.shiftKey && focusedRecord) {
             // Extend selection
-            const nextIndex = Math.min(focusedIndex + 1, totalRows - 1);
-            const nextRecord = records[nextIndex];
             if (nextRecord) {
               selectRange(nextRecord.id, records.map((r) => r.id));
               setFocusedIndex(nextIndex);
             }
           } else {
-            moveFocus('down', totalRows);
+            setFocusedIndex(nextIndex);
+            // If drawer is open, update record without animation
+            if (isDrawerOpen && nextRecord) {
+              updateDrawerRecord(nextRecord.id);
+            }
           }
           e.preventDefault();
           break;
+        }
 
         case 'k':
-        case 'ArrowUp':
+        case 'ArrowUp': {
+          const prevIndex = Math.max(focusedIndex - 1, 0);
+          const prevRecord = records[prevIndex];
           if (e.shiftKey && focusedRecord) {
             // Extend selection
-            const prevIndex = Math.max(focusedIndex - 1, 0);
-            const prevRecord = records[prevIndex];
             if (prevRecord) {
               selectRange(prevRecord.id, records.map((r) => r.id));
               setFocusedIndex(prevIndex);
             }
           } else {
-            moveFocus('up', totalRows);
+            setFocusedIndex(prevIndex);
+            // If drawer is open, update record without animation
+            if (isDrawerOpen && prevRecord) {
+              updateDrawerRecord(prevRecord.id);
+            }
           }
           e.preventDefault();
           break;
+        }
 
         case 'g':
           // Double 'g' to go to top (vim-style) - simplified: just go to top on 'g'
@@ -298,6 +309,7 @@ export function KeyboardProvider({
     getSelectedIds,
     openDrawer,
     closeDrawer,
+    updateDrawerRecord,
     toggleFilterBar,
     toggleHelpModal,
     setHelpModalOpen,

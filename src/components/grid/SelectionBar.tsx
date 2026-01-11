@@ -44,9 +44,10 @@ export function SelectionBar({ onBatchAction }: SelectionBarProps) {
     <div
       className={cn(
         'fixed bottom-6 left-1/2 -translate-x-1/2',
-        'flex items-center gap-4 px-4 py-3',
-        'bg-surface-2 border border-surface-3 rounded-lg shadow-lg',
-        'z-30 animate-slide-up'
+        'flex items-center gap-4 px-5 py-3',
+        'bg-surface-2/90 backdrop-blur-md border border-surface-3/50 rounded-lg shadow-2xl',
+        'z-30 animate-slide-up glow-accent-sm',
+        'relative corner-accent'
       )}
     >
       {/* Selection count */}
@@ -117,7 +118,7 @@ export function SelectionBar({ onBatchAction }: SelectionBarProps) {
               className={cn(
                 'flex items-center gap-1.5 h-8 px-3 text-sm font-medium rounded',
                 'bg-status-approved/20 text-status-approved',
-                'hover:bg-status-approved hover:text-surface-0 transition-colors'
+                'hover:bg-status-approved hover:text-surface-0 hover:glow-status-approved transition-all duration-200'
               )}
             >
               <span className="kbd text-[9px]">Shift+A</span>
@@ -128,7 +129,7 @@ export function SelectionBar({ onBatchAction }: SelectionBarProps) {
               className={cn(
                 'flex items-center gap-1.5 h-8 px-3 text-sm font-medium rounded',
                 'bg-status-published/20 text-status-published',
-                'hover:bg-status-published hover:text-surface-0 transition-colors'
+                'hover:bg-status-published hover:text-surface-0 hover:glow-status-published transition-all duration-200'
               )}
             >
               <span className="kbd text-[9px]">Shift+P</span>
@@ -139,7 +140,7 @@ export function SelectionBar({ onBatchAction }: SelectionBarProps) {
               className={cn(
                 'flex items-center gap-1.5 h-8 px-3 text-sm font-medium rounded',
                 'bg-status-blocked/20 text-status-blocked',
-                'hover:bg-status-blocked hover:text-surface-0 transition-colors'
+                'hover:bg-status-blocked hover:text-surface-0 hover:glow-status-blocked transition-all duration-200'
               )}
             >
               <span className="kbd text-[9px]">Shift+B</span>

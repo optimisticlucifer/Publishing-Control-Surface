@@ -76,7 +76,7 @@ export function HelpModal() {
     <>
       {/* Backdrop */}
       <div
-        className="fixed inset-0 bg-black/50 z-50"
+        className="fixed inset-0 bg-black/30 z-50 animate-fade-in"
         onClick={() => setHelpModalOpen(false)}
         aria-hidden="true"
       />
@@ -86,22 +86,23 @@ export function HelpModal() {
         className={cn(
           'fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2',
           'w-[600px] max-w-[90vw] max-h-[80vh]',
-          'bg-surface-1 border border-surface-3 rounded-lg shadow-xl',
+          'bg-surface-1/95 backdrop-blur-md border border-surface-3/50 rounded-lg shadow-2xl',
           'z-50 overflow-y-auto',
-          'animate-slide-up'
+          'animate-scale-in glow-accent-sm',
+          'relative corner-accent'
         )}
         role="dialog"
         aria-modal="true"
         aria-labelledby="help-title"
       >
         {/* Header */}
-        <div className="sticky top-0 bg-surface-1 border-b border-surface-3 px-6 py-4 flex items-center justify-between">
-          <h2 id="help-title" className="text-lg font-medium text-text-primary">
+        <div className="sticky top-0 bg-surface-1/90 backdrop-blur-sm border-b border-surface-3/50 px-6 py-4 flex items-center justify-between">
+          <h2 id="help-title" className="text-lg font-medium text-gradient">
             Keyboard Shortcuts
           </h2>
           <button
             onClick={() => setHelpModalOpen(false)}
-            className="flex items-center gap-2 text-text-tertiary hover:text-text-secondary transition-colors"
+            className="flex items-center gap-2 text-text-tertiary hover:text-text-secondary transition-all duration-200"
           >
             <span className="kbd">ESC</span>
           </button>
@@ -127,7 +128,7 @@ export function HelpModal() {
         </div>
 
         {/* Footer */}
-        <div className="border-t border-surface-3 px-6 py-4">
+        <div className="border-t border-surface-3/50 px-6 py-4 bg-surface-1/50">
           <p className="text-xs text-text-tertiary text-center">
             Power users can navigate entirely with the keyboard. Mouse is optional.
           </p>
