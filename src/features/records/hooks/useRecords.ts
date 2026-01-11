@@ -264,11 +264,22 @@ export function useBatchMutation() {
       const successCount = result.successful.length;
       const failCount = result.failed.length;
 
-      if (failCount === 0) {
+      if (failCount === 0 && successCount > 0) {
         toast.success(`${successCount} items ${variables.action}ed`, {
           description: 'All actions completed successfully.',
         });
-      } else {
+      } else if (successCount === 0 && failCount > 0) {
+        // All failed - likely invalid transitions
+        const actionRequires: Record<ActionType, string> = {
+          review: 'Queued',
+          approve: 'InReview',
+          publish: 'Approved',
+          block: 'any status',
+        };
+        toast.error(`Cannot ${variables.action}`, {
+          description: `${variables.action} requires records in "${actionRequires[variables.action]}" status.`,
+        });
+      } else if (failCount > 0) {
         toast.warning(`Partially completed`, {
           description: `${successCount} succeeded, ${failCount} failed.`,
         });

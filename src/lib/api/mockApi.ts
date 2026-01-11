@@ -79,13 +79,9 @@ function applyFilters(records: ContentRecord[], filters?: RecordFilters): Conten
   return result;
 }
 
-// Sort records by impact (High > Medium > Low) and then by updatedAt
+// Sort records by updatedAt only (most recent first) - impacts remain randomized
 function sortRecords(records: ContentRecord[]): ContentRecord[] {
-  const impactOrder: Record<string, number> = { High: 0, Medium: 1, Low: 2 };
-
   return [...records].sort((a, b) => {
-    const impactDiff = impactOrder[a.impact] - impactOrder[b.impact];
-    if (impactDiff !== 0) return impactDiff;
     return new Date(b.updatedAt).getTime() - new Date(a.updatedAt).getTime();
   });
 }
