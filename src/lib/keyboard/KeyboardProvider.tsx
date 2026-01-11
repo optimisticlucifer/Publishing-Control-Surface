@@ -195,16 +195,9 @@ export function KeyboardProvider({
           }
           break;
 
-        // Actions
+        // Actions - Single record
         case 'a':
-          if (e.shiftKey) {
-            // Batch approve
-            const selectedIds = getSelectedIds();
-            if (selectedIds.length > 0) {
-              onBatchAction('approve', selectedIds);
-              e.preventDefault();
-            }
-          } else if (focusedRecord && isValidAction(focusedRecord.status, 'approve')) {
+          if (focusedRecord && isValidAction(focusedRecord.status, 'approve')) {
             onAction('approve', focusedRecord.id);
             e.preventDefault();
           }
@@ -218,33 +211,15 @@ export function KeyboardProvider({
           break;
 
         case 'p':
-          if (e.shiftKey) {
-            // Batch publish
-            const selectedIds = getSelectedIds();
-            if (selectedIds.length > 0) {
-              onBatchAction('publish', selectedIds);
-              e.preventDefault();
-            }
-          } else if (focusedRecord && isValidAction(focusedRecord.status, 'publish')) {
+          if (focusedRecord && isValidAction(focusedRecord.status, 'publish')) {
             onAction('publish', focusedRecord.id);
             e.preventDefault();
           }
           break;
 
         case 'b':
-          // Block requires a reason - this will open a dialog
-          if (e.shiftKey) {
-            // Batch block - will need to show dialog
-            const selectedIds = getSelectedIds();
-            if (selectedIds.length > 0) {
-              // For now, use a simple prompt
-              const reason = window.prompt('Enter block reason:');
-              if (reason) {
-                onBatchAction('block', selectedIds, reason);
-              }
-              e.preventDefault();
-            }
-          } else if (focusedRecord && isValidAction(focusedRecord.status, 'block')) {
+          // Block requires a reason
+          if (focusedRecord && isValidAction(focusedRecord.status, 'block')) {
             const reason = window.prompt('Enter block reason:');
             if (reason) {
               onAction('block', focusedRecord.id, reason);
@@ -252,6 +227,41 @@ export function KeyboardProvider({
             e.preventDefault();
           }
           break;
+
+        // Batch actions (Shift + key = uppercase)
+        case 'A': {
+          // Allow Ctrl/Cmd+A for native select all
+          if (e.ctrlKey || e.metaKey) {
+            break;
+          }
+          const selectedIds = getSelectedIds();
+          if (selectedIds.length > 0) {
+            onBatchAction('approve', selectedIds);
+            e.preventDefault();
+          }
+          break;
+        }
+
+        case 'P': {
+          const selectedIds = getSelectedIds();
+          if (selectedIds.length > 0) {
+            onBatchAction('publish', selectedIds);
+            e.preventDefault();
+          }
+          break;
+        }
+
+        case 'B': {
+          const selectedIds = getSelectedIds();
+          if (selectedIds.length > 0) {
+            const reason = window.prompt('Enter block reason:');
+            if (reason) {
+              onBatchAction('block', selectedIds, reason);
+            }
+            e.preventDefault();
+          }
+          break;
+        }
 
         // UI toggles
         case 'f':
@@ -267,13 +277,6 @@ export function KeyboardProvider({
         case 't':
           toggleTheme();
           e.preventDefault();
-          break;
-
-        // Select all (Ctrl/Cmd + A)
-        case 'A':
-          if (e.ctrlKey || e.metaKey) {
-            // Let this through to native behavior
-          }
           break;
       }
     };
