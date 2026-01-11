@@ -1,0 +1,68 @@
+Frontend Engineering Challenge: The "Control Surface"
+Context
+Gravton Labs builds infrastructure for the "Agentic Internet." We help enterprises track and fix their visibility across AI
+agents (ChatGPT, Perplexity, etc.).
+The Goal
+Build the "Publishing Control Surface"—a high-performance, keyboard-centric dashboard where editors approve
+content to fix visibility gaps.
+Design Philosophy: Gravity & Photon
+● Gravity: The tool must feel grounded, stable, and authoritative.
+● Photon: Interactions must be fast, precise, and light.
+● Constraint: Avoid "AI Hype" (no sparkles/robots). Aim for "Scientific Precision."
+1. The Build
+Create a Single Page Application (SPA) that manages a queue of content actions.
+A. Data Simulation
+Generate 3,000 mock records client-side with the following schema:
+● id: UUID
+● prompt: string (e.g., "Best enterprise CRM for mid-market")
+● engine: string (ChatGPT, Gemini, Perplexity)
+● status: Enum (Queued, InReview, Approved, Published, Blocked)
+● impact: Enum (High, Medium, Low)
+● safetyFlags: Array<string> (e.g., "Pricing mismatch")
+● updatedAt: ISO Date
+B. Core View (The Grid)
+● Performance: Render the 3,000 records efficiently. Virtualization is expected.
+● Density: Design for high data density without clutter.
+● Filtering: Filter by status and engine; Search by prompt.
+● Sorting: Sort by impact (desc) and updatedAt.
+C. The Workflow (State Machine)
+Implement the following transitions. Simulate a random 300ms–1200ms API latency for each.
+1. Review: Queued $\rightarrow$ InReview
+2. Approve: InReview $\rightarrow$ Approved
+3. Publish: Approved $\rightarrow$ Published
+4. Block: Any State $\rightarrow$ Blocked (Require a reason string).
+Further, build an affordance for approving or publishing multiple rows at once. Design a minimal batch interaction that
+does not visually break density.
+
+2. The "Taste" Differentiators (Key Evaluation Criteria)
+We are not looking for a generic Bootstrap table. We are looking for:
+1. Optimistic UI & Reversion
+● The UI must update immediately when an action is taken. Do not block the user with spinners.
+● Simulate an 8% failure rate on API calls.
+● If a call fails, gracefully revert the UI state and show a non-intrusive toast error.
+2. Keyboard-First Architecture
+● A power user should never need the mouse.
+● j / k to move focus between rows.
+● Enter to open a "Review Drawer" (details view).
+● Shortcuts (a=Approve, b=Block) should work on the focused row.
+3. Visual Maturity
+● Use subtle indicators (typography, spacing, muted colors) to denote status/impact.
+● Avoid loud "badges" or "chips" unless necessary.
+3. Technical Constraints
+● Framework: React (preferred), Vue, or Svelte.
+● Language: TypeScript (Strict).
+● Styling: Tailwind, CSS Modules, or CSS-in-JS.
+● Allowed Libraries: Headless utilities (TanStack Table, cmdk) are encouraged.
+● Forbidden: Heavy UI component libraries (MUI, AntD, Chakra). We want to see your CSS architecture.
+4. The Technical Defense
+In your README, please briefly answer the following (1-2 paragraphs each):
+1. State Management Strategy: Why did you choose your specific method for handling the 3k records +
+optimistic updates? How would this scale to 50k records?
+2. Virtualization Trade-offs: What approach did you take for row virtualization? What are the downsides of your
+approach regarding accessibility (Ctrl+F) or variable row heights?
+3. The "Sync" Problem: How do you handle race conditions? (e.g., User clicks "Approve" then immediately
+"Block" before the first request finishes).
+5. Submission
+1. Public Git Repository.
+2. Live Deployment URL (Vercel/Netlify).
+3. README.md with setup instructions and your "Technical Defense."
