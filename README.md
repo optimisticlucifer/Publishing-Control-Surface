@@ -1,6 +1,6 @@
-# Gravton Publishing Control Surface
+# Publishing Control Surface
 
-A high-performance, keyboard-centric dashboard for managing content approval workflows. Built for the Gravton Labs frontend engineering challenge.
+A high-performance, keyboard-centric dashboard for managing content approval workflows. 
 
 ![Gravton Logo](./src/assets/gravtonlabs_logo.jpeg)
 
@@ -35,10 +35,10 @@ A high-performance, keyboard-centric dashboard for managing content approval wor
 
 ```bash
 # Clone the repository
-git clone https://github.com/your-username/gravton-control-surface.git
+git clone https://github.com/your-username/control-surface.git
 
 # Navigate to project directory
-cd gravton-control-surface
+cd control-surface
 
 # Install dependencies
 npm install
